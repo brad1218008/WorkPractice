@@ -34,6 +34,7 @@ GO
 
 --Q3.以10歲為間隔列出每個年齡層員工人數
 
+--SOLUTION 1
 IF OBJECT_ID('HR.AgeRange') IS NOT NULL
 	DROP VIEW HR.AgeRange;
 GO
@@ -41,7 +42,9 @@ GO
 --count by range
 CREATE VIEW HR.AgeRange
 AS
-SELECT SUM(CASE WHEN AgeTable.age BETWEEN 40 AND 49 THEN 1 ELSE 0 END) as [40~49],
+SELECT SUM(CASE WHEN AgeTable.age BETWEEN 20 AND 29 THEN 1 ELSE 0 END) as [20~29],
+	   SUM(CASE WHEN AgeTable.age BETWEEN 30 AND 39 THEN 1 ELSE 0 END) as [30~39],
+	   SUM(CASE WHEN AgeTable.age BETWEEN 40 AND 49 THEN 1 ELSE 0 END) as [40~49],
 	   SUM(CASE WHEN AgeTable.age BETWEEN 50 AND 59 THEN 1 ELSE 0 END) as [50~59],
 	   SUM(CASE WHEN AgeTable.age BETWEEN 60 AND 69 THEN 1 ELSE 0 END) as [60~69],
 	   SUM(CASE WHEN AgeTable.age BETWEEN 70 AND 79 THEN 1 ELSE 0 END) as [70~79]
@@ -52,12 +55,37 @@ GO
 --unpivot to convert
 SELECT agera, total
 FROM HR.AgeRange
-UNPIVOT (total FOR agera IN([40~49],[50~59],[60~69],[70~79])) as unpvt
+UNPIVOT (total FOR agera IN([20~29],[30~39],[40~49],[50~59],[60~69],[70~79])) as unpvt
+WHERE total != 0
 GO
 
 IF OBJECT_ID('HR.AgeRange') IS NOT NULL
 	DROP VIEW HR.AgeRange;
 GO
+
+--SOLUTION 2
+
+SELECT CASE WHEN a.age BETWEEN 20 AND 29 THEN '20-29' 
+			WHEN a.age BETWEEN 30 AND 39 THEN '30-39' 
+			WHEN a.age BETWEEN 40 AND 49 THEN '40-49' 
+			WHEN a.age BETWEEN 50 AND 59 THEN '50-59'
+			WHEN a.age BETWEEN 60 AND 69 THEN '60-69'
+			WHEN a.age BETWEEN 70 AND 79 THEN '70-79'
+			ELSE 'OVER 79' END as rng,
+	   count(*) as cnt
+FROM(SELECT  DATEDIFF(YY,BirthDate,GETDATE()) as age
+	FROM HR.Employees) as a
+GROUP BY CASE  WHEN a.age BETWEEN 20 AND 29 THEN '20-29' 
+			   WHEN a.age BETWEEN 30 AND 39 THEN '30-39' 
+			   WHEN a.age BETWEEN 40 AND 49 THEN '40-49' 
+			   WHEN a.age BETWEEN 50 AND 59 THEN '50-59'
+			   WHEN a.age BETWEEN 60 AND 69 THEN '60-69'
+			   WHEN a.age BETWEEN 70 AND 79 THEN '70-79'
+			   ELSE 'OVER 79' END
+HAVING count(*) > 0
+
+--SOLUTION 3
+
 
 
 --4.撈出每個國家銷售數量前3名的員工及數量
