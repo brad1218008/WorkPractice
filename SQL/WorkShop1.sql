@@ -86,7 +86,30 @@ HAVING count(*) > 0
 
 --SOLUTION 3
 
+IF OBJECT_ID('HR.AgeRange') IS NOT NULL
+	DROP PROC HR.AgeRange;
+GO
 
+--DECLARE @range INT = 5
+CREATE PROC HR.AgeRange
+(@range INT,@datetime DATETIME = null)
+AS
+IF @datetime IS NULL
+ SET @datetime = GETDATE()
+SELECT CONCAT(CAST(a.age as int)*@range , '-' ,CAST(a.age as int)*@range+@range-1) as age,
+	   count(*) as cnt
+FROM(SELECT  DATEDIFF(YY,BirthDate,@datetime)/@range as age
+	FROM HR.Employees
+	WHERE DATEDIFF(YY,BirthDate,@datetime)/@range >= 0) as a
+GROUP BY a.age
+HAVING count(*) > 0
+GO
+
+EXEC HR.AgeRange @range=10,@datetime='2008/10/10';
+
+IF OBJECT_ID('HR.AgeRange') IS NOT NULL
+	DROP PROC HR.AgeRange;
+GO
 
 --4.撈出每個國家銷售數量前3名的員工及數量
 
