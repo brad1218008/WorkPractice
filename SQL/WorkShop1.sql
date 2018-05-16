@@ -65,22 +65,22 @@ GO
 
 --SOLUTION 2
 
-SELECT CASE WHEN a.age BETWEEN 20 AND 29 THEN '20-29' 
-			WHEN a.age BETWEEN 30 AND 39 THEN '30-39' 
-			WHEN a.age BETWEEN 40 AND 49 THEN '40-49' 
-			WHEN a.age BETWEEN 50 AND 59 THEN '50-59'
-			WHEN a.age BETWEEN 60 AND 69 THEN '60-69'
-			WHEN a.age BETWEEN 70 AND 79 THEN '70-79'
+SELECT CASE WHEN AgeTable.age BETWEEN 20 AND 29 THEN '20-29' 
+			WHEN AgeTable.age BETWEEN 30 AND 39 THEN '30-39' 
+			WHEN AgeTable.age BETWEEN 40 AND 49 THEN '40-49' 
+			WHEN AgeTable.age BETWEEN 50 AND 59 THEN '50-59'
+			WHEN AgeTable.age BETWEEN 60 AND 69 THEN '60-69'
+			WHEN AgeTable.age BETWEEN 70 AND 79 THEN '70-79'
 			ELSE 'OVER 79' END as rng,
 	   count(*) as cnt
 FROM(SELECT  DATEDIFF(YY,BirthDate,GETDATE()) as age
-	FROM HR.Employees) as a
-GROUP BY CASE  WHEN a.age BETWEEN 20 AND 29 THEN '20-29' 
-			   WHEN a.age BETWEEN 30 AND 39 THEN '30-39' 
-			   WHEN a.age BETWEEN 40 AND 49 THEN '40-49' 
-			   WHEN a.age BETWEEN 50 AND 59 THEN '50-59'
-			   WHEN a.age BETWEEN 60 AND 69 THEN '60-69'
-			   WHEN a.age BETWEEN 70 AND 79 THEN '70-79'
+	FROM HR.Employees) as AgeTable
+GROUP BY CASE  WHEN AgeTable.age BETWEEN 20 AND 29 THEN '20-29' 
+			   WHEN AgeTable.age BETWEEN 30 AND 39 THEN '30-39' 
+			   WHEN AgeTable.age BETWEEN 40 AND 49 THEN '40-49' 
+			   WHEN AgeTable.age BETWEEN 50 AND 59 THEN '50-59'
+			   WHEN AgeTable.age BETWEEN 60 AND 69 THEN '60-69'
+			   WHEN AgeTable.age BETWEEN 70 AND 79 THEN '70-79'
 			   ELSE 'OVER 79' END
 HAVING count(*) > 0
 
@@ -96,16 +96,16 @@ CREATE PROC HR.AgeRange
 AS
 IF @datetime IS NULL
  SET @datetime = GETDATE()
-SELECT CONCAT(CAST(a.age as int)*@range , '-' ,CAST(a.age as int)*@range+@range-1) as age,
+SELECT CONCAT(CAST(AgeTable.age as int)*@range , '-' ,CAST(AgeTable.age as int)*@range+@range-1) as age,
 	   count(*) as cnt
 FROM(SELECT  DATEDIFF(YY,BirthDate,@datetime)/@range as age
 	FROM HR.Employees
-	WHERE DATEDIFF(YY,BirthDate,@datetime)/@range >= 0) as a
-GROUP BY a.age
+	WHERE DATEDIFF(YY,BirthDate,@datetime)/@range >= 0) as AgeTable
+GROUP BY AgeTable.age
 HAVING count(*) > 0
 GO
 
-EXEC HR.AgeRange @range=10,@datetime='2008/10/10';
+EXEC HR.AgeRange @range=10--,@datetime='2008/10/10';
 
 IF OBJECT_ID('HR.AgeRange') IS NOT NULL
 	DROP PROC HR.AgeRange;
