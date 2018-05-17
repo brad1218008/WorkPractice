@@ -44,7 +44,9 @@ function addData() {
 	tmp.Location = location
 	
 	data.push(tmp);
-	refreshGrid(tmp);
+	var tmpjsondate = JSON.stringify(tmp);
+	skillData.push(JSON.parse(tmpjsondate));
+	refreshGrid();
 	resetAll();
 }
 

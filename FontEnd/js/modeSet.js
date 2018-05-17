@@ -1,3 +1,7 @@
+// -----------------
+//|  AddData MODE	|
+// -----------------
+
 function learningMode(){
 	if($("#lrnMode.btn-primary").length > 0) {
 		return
@@ -18,4 +22,26 @@ function queryMode(){
 		$(".addSkill").css("display","none");
 		$(".search").css("display","block");
 	}
+}
+
+// -----------------
+//|  Funtion MODE	|
+// -----------------
+
+function searchMode() {
+	$("#searchMode").css("display","block");
+	$("#modifyMode").css("display","none");
+	$("#deleteMode").css("display","none");
+}
+
+function modifyMode() {
+	$("#searchMode").css("display","none");
+	$("#modifyMode").css("display","block");
+	$("#deleteMode").css("display","none");
+}
+
+function deleteMode() {
+	$("#searchMode").css("display","none");
+	$("#modifyMode").css("display","none");
+	$("#deleteMode").css("display","block");
 }

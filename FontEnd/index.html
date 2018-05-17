@@ -14,10 +14,11 @@
 	<script type="text/javascript" src="js/multiple-select.js"></script>
 	<script type="text/javascript" src="js/bootstrap.min.js"></script>
 	<script src="https://kendo.cdn.telerik.com/2018.2.515/js/kendo.all.min.js"></script>
+	<script type="text/javascript" src="js/gridView.js"></script>
 	<script type="text/javascript" src="js/addSkillData.js"></script>
+	<script type="text/javascript" src="js/delSkillData.js"></script>
 	<script type="text/javascript" src="js/modeSet.js"></script>
 	<script type="text/javascript" src="js/skillChange.js"></script>
-	<script type="text/javascript" src="js/gridView.js"></script>
 	<script type="text/javascript" src="js/main.js"></script>
 </head>
 
@@ -27,18 +28,18 @@
 		<div class="row">
 			<div class="col-3">
 				<div class="btn-group btn-flex" role="group">
-					<button id="lrnMode" type="button" class="btn btn-primary" >我要學習</button>
-					<button id="qryMode" type="button" class="btn btn-secondary">我要查詢</button>
+					<button id="lrnMode" type="button" class="btn btn-primary" >新增學習</button>
+					<button id="qryMode" type="button" class="btn btn-secondary">更多功能</button>
 				</div>
 				<form class="addSkill">
 					<div class="form-group">
-						<label for="name">Name</label>
+						<label for="name">姓名</label>
 						<input id="name" type="text" class="form-control" required >
 					</div>
 					<div class="row">
 						<div class="col-6">
 							<div class="form-group">
-								<label for="skill">Skill</label><br>
+								<label for="skill">技能</label><br>
 								<select id="skillSelect" class="form-control" required>
 									<option value="program,800">程式語言</option>
 									<option value="draw,1000">繪畫</option>
@@ -72,7 +73,7 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="location">Location</label><br>
+						<label for="location">地點</label><br>
 						<select id="location" class="form-control" multiple="multiple" required>
 							<option value="台北" selected>台北</option>
 							<option value="桃園">桃園</option>
@@ -92,12 +93,42 @@
 						</select>
 					</div>
 					<div class="form-group">
-						<label for="phoneNumber">Phone Number</label>
+						<label for="phoneNumber">電話號碼</label>
 						<input id="phoneNumber" type="text" class="form-control" required>
 					</div>
 					<input type="button" value="送出" id="addMySkill" class="btn btn-primary btn-block">
 				</form>
-				<from class="search">Comimg Soon</from>
+				<from class="search">
+					<div class="form-group">
+						<label for="feature">功能</label><br>
+						<select id="featureSelect" class="form-control" required>
+							<option value="search">查詢</option>
+							<option value="modify">修改</option>
+							<option value="delete">刪除</option>
+						</select>
+						<div class="form-group" id="searchMode">
+							<label for="column">欄位</label><br>
+							<select id="columnSelect" class="form-control" required>
+								<option value="ID">ID</option>
+								<option value="Name">姓名</option>
+								<option value="Skill">技能</option>
+								<option value="UnitPrice">每小時</option>
+								<option value="HR">時數</option>
+								<option value="TotalPrice">總價</option>
+								<option value="PhoneNumber">電話號碼</option>
+								<option value="Location">地點</option>
+							</select>
+							<input tpye="button" value="查詢" id="searchData" class="btn btn-primary btn-block">
+						</div>
+						<div class="form-group" id="modifyMode">
+						</div>
+						<div class="form-group" id="deleteMode">
+							<label for="ID">ID</label>
+							<input type="number" class="form-control" id="deleteID" value="1" min="1" required>
+							<input type="button" value="確定" id="deleteData" class="btn btn-primary btn-block">
+						</div>
+					</div>
+				</from>
 			</div>
 			<div class="col-9">
 				<div id="grid">

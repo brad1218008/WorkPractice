@@ -81,12 +81,28 @@
 }
 .btn-group.btn-flex 
 {
-  display: flex;
+  	display: flex;
 	margin-top: 15px;
 }
 .btn-flex .btn 
 {
-  flex: 1
+  	flex: 1;
+}
+#serachMode
+{
+	display: block;
+}
+#modifyMode
+{
+	display: none;
+}
+#deleteMode
+{
+	display: none;
+}
+#searchData,#deleteData
+{
+	margin-top: 20px;
 }
 /*delete arrows in input[type=number]*/
 input[type=number]::-webkit-inner-spin-button, 

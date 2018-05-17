@@ -29,7 +29,7 @@ $(function() {
 		if($("#skillSelect").val().split(",")[0] == "other" && $("#setHR").val() == "")
 			return;
 		setTotalPrice();
-	})
+	});
 	
 	//Set totalPrice - is Other
 	$("#setUnitPrice").change(function() {
@@ -38,14 +38,34 @@ $(function() {
 			return;
 		}
 		setTotalPrice();
-	})
+	});
 	
-	//Learning Mode Click
+	//Learning Mode Button Click
 	$("#lrnMode").on("click",learningMode);
 	
-	//Query Mode Click
+	//Query Mode Button Click
 	$("#qryMode").on("click",queryMode);
 
-	//Add new data
+	//Add new data Button Click
 	$("#addMySkill").on("click",addData);
+	
+	//Function mode changed
+	$("#featureSelect").change(function() {
+		if($("#featureSelect").val() == "search") {
+			searchMode();
+		}else if($("#featureSelect").val() == "modify") {
+			modifyMode();
+		}else {
+			deleteMode();
+		}
+	});
+	
+	//Search Button Click
+	
+	
+	//Delete Button Click
+	$("#deleteData").on("click", function() {
+		var id = $("#deleteID").val()
+		deleteData(id);
+	});
 });

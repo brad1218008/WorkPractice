@@ -13,18 +13,20 @@ GO
 --Q1.請列出每個銷售員每年訂單數量，並依員編及年度做排序。
 
 
-SELECT Emp.EmployeeID as empid, Emp.FirstName as firstname, Emp.LastName as lastname,
-	Year(Sal.OrderDate) as orderyear,count(*) as ordercnt
-FROM HR.Employees as Emp, Sales.Orders as Sal
-WHERE Emp.EmployeeID = Sal.EmployeeID
-GROUP BY Emp.EmployeeID, Emp.FirstName, Emp.LastName, Year(Sal.OrderDate)
-ORDER BY Emp.EmployeeID
-GO
+SELECT Emp.EmployeeID as empid, Emp.FirstName as firstname, 
+	   Emp.LastName as lastname,Year(Sal.OrderDate) as orderyear,
+	   count(Emp.EmployeeID) as ordercnt
+FROM HR.Employees as Emp
+	LEFT JOIN Sales.Orders as Sal
+		ON Emp.EmployeeID = Sal.EmployeeID
 
+GROUP BY Emp.EmployeeID, Emp.FirstName, Emp.LastName, Year(Sal.OrderDate)
+ORDER BY Emp.EmployeeID, Year(Sal.OrderDate)
+GO
 
 --Q2.列出最受歡迎產品前五名(銷售數量最多前五名)
 
-SELECT TOP(5)OD.ProductID, Pro.ProductName, SUM(Qty) as qty
+SELECT OD.ProductID, Pro.ProductName, SUM(Qty) as qty
 FROM Sales.OrderDetails as OD, Production.Products as Pro
 WHERE OD.ProductID = Pro.ProductID
 GROUP BY OD.ProductID, Pro.ProductName
@@ -42,12 +44,18 @@ GO
 --count by range
 CREATE VIEW HR.AgeRange
 AS
-SELECT SUM(CASE WHEN AgeTable.age BETWEEN 20 AND 29 THEN 1 ELSE 0 END) as [20~29],
-	   SUM(CASE WHEN AgeTable.age BETWEEN 30 AND 39 THEN 1 ELSE 0 END) as [30~39],
-	   SUM(CASE WHEN AgeTable.age BETWEEN 40 AND 49 THEN 1 ELSE 0 END) as [40~49],
-	   SUM(CASE WHEN AgeTable.age BETWEEN 50 AND 59 THEN 1 ELSE 0 END) as [50~59],
-	   SUM(CASE WHEN AgeTable.age BETWEEN 60 AND 69 THEN 1 ELSE 0 END) as [60~69],
-	   SUM(CASE WHEN AgeTable.age BETWEEN 70 AND 79 THEN 1 ELSE 0 END) as [70~79]
+SELECT SUM(CASE WHEN AgeTable.age BETWEEN 20 AND 29 THEN 1 ELSE 0 END)
+		 as [20~29],
+	   SUM(CASE WHEN AgeTable.age BETWEEN 30 AND 39 THEN 1 ELSE 0 END)
+		 as [30~39],
+	   SUM(CASE WHEN AgeTable.age BETWEEN 40 AND 49 THEN 1 ELSE 0 END)
+		 as [40~49],
+	   SUM(CASE WHEN AgeTable.age BETWEEN 50 AND 59 THEN 1 ELSE 0 END)
+		 as [50~59],
+	   SUM(CASE WHEN AgeTable.age BETWEEN 60 AND 69 THEN 1 ELSE 0 END)
+		 as [60~69],
+	   SUM(CASE WHEN AgeTable.age BETWEEN 70 AND 79 THEN 1 ELSE 0 END)
+		 as [70~79]
 FROM(SELECT DATEDIFF(YY,BirthDate,GETDATE()) as age
 	FROM HR.Employees) as AgeTable
 GO
@@ -55,7 +63,8 @@ GO
 --unpivot to convert
 SELECT agera, total
 FROM HR.AgeRange
-UNPIVOT (total FOR agera IN([20~29],[30~39],[40~49],[50~59],[60~69],[70~79])) as unpvt
+UNPIVOT (total FOR agera IN([20~29],[30~39],[40~49],[50~59],[60~69],[70~79]))
+		 as unpvt
 WHERE total != 0
 GO
 
@@ -96,7 +105,8 @@ CREATE PROC HR.AgeRange
 AS
 IF @datetime IS NULL
  SET @datetime = GETDATE()
-SELECT CONCAT(CAST(AgeTable.age as int)*@range , '-' ,CAST(AgeTable.age as int)*@range+@range-1) as age,
+SELECT CONCAT(CAST(AgeTable.age as int)*@range , '-' ,
+		CAST(AgeTable.age as int)*@range+@range-1) as age,
 	   count(*) as cnt
 FROM(SELECT  DATEDIFF(YY,BirthDate,@datetime)/@range as age
 	FROM HR.Employees
@@ -105,13 +115,13 @@ GROUP BY AgeTable.age
 HAVING count(*) > 0
 GO
 
-EXEC HR.AgeRange @range=10--,@datetime='2008/10/10';
+EXEC HR.AgeRange @range=5--,@datetime='2008/10/10';
 
 IF OBJECT_ID('HR.AgeRange') IS NOT NULL
 	DROP PROC HR.AgeRange;
 GO
 
---4.撈出每個國家銷售數量前3名的員工及數量
+--4.撈出每個國家銷售數量前3名的員工及數量  可以用CTE
 
 
 IF OBJECT_ID('HR.TopThreeCountry') IS NOT NULL
@@ -121,8 +131,9 @@ GO
 --compute rank by country and employee
 CREATE VIEW HR.TopThreeCountry
 AS
-SELECT ROW_NUMBER() OVER (PARTITION BY Ord.ShipCountry ORDER BY count(*) DESC) AS seq,
-	   Ord.ShipCountry, Emp.EmployeeID, Emp.FirstName, Emp.LastName, count(*) as cnt
+SELECT RANK() OVER (PARTITION BY Ord.ShipCountry ORDER BY count(*) DESC) AS seq,
+	   Ord.ShipCountry, Emp.EmployeeID, Emp.FirstName,
+	   Emp.LastName, count(*) as cnt
 FROM Sales.Orders AS Ord, HR.Employees as Emp
 WHERE Ord.EmployeeID = Emp.EmployeeID
 GROUP BY Emp.EmployeeID, Ord.ShipCountry, Emp.FirstName, Emp.LastName
@@ -141,10 +152,14 @@ GO
 --5.請列出2006,2007,2008 員工銷售數字比較
 
 --use sum to compute the results
-SELECT Emp.EmployeeID As empid,Emp.FirstName AS firstname,Emp.LastName AS lastname,
-	   SUM(CASE WHEN Year(Ord.OrderDate) = 2006 THEN 1 ELSE 0 END) AS CUT2006,
-	   SUM(CASE WHEN Year(Ord.OrderDate) = 2007 THEN 1 ELSE 0 END) AS CUT2007,
-	   SUM(CASE WHEN Year(Ord.OrderDate) = 2008 THEN 1 ELSE 0 END) AS CUT2008
+SELECT Emp.EmployeeID As empid,Emp.FirstName AS firstname,
+	   Emp.LastName AS lastname,
+	   SUM(CASE WHEN Year(Ord.OrderDate) = 2006 THEN 1 ELSE 0 END)
+		 AS CUT2006,
+	   SUM(CASE WHEN Year(Ord.OrderDate) = 2007 THEN 1 ELSE 0 END)
+		 AS CUT2007,
+	   SUM(CASE WHEN Year(Ord.OrderDate) = 2008 THEN 1 ELSE 0 END)
+		 AS CUT2008
 FROM Sales.Orders AS Ord, HR.Employees AS Emp
 WHERE Ord.EmployeeID = Emp.EmployeeID
 GROUP BY Emp.EmployeeID, Emp.FirstName, Emp.LastName
@@ -160,12 +175,13 @@ GO
 --count Employee sale every year
 CREATE VIEW HR.YearList
 AS
-SELECT Emp.EmployeeID As empid, Emp.FirstName, Emp.LastName, Year(OrderDate) AS orderyear, COUNT(*) AS num
+SELECT Emp.EmployeeID As empid, Emp.FirstName, Emp.LastName,
+	   Year(OrderDate) AS orderyear, COUNT(*) AS num
 FROM Sales.Orders AS Ord, HR.Employees AS Emp
 WHERE Ord.EmployeeID = Emp.EmployeeID
 GROUP BY Emp.EmployeeID, Emp.FirstName, Emp.LastName, Year(OrderDate)
 GO
---ISNULL([2006], 0) AS CNT2006,ISNULL([2007], 0) AS CNT2007,ISNULL([2008], 0) AS CNT2008
+
 --use pivot to conert
 SELECT empid,FirstName,LastName, ISNULL([2006], 0) AS CNT2006,
        ISNULL([2007], 0) AS CNT2007, ISNULL([2008],0) AS CNT2008
@@ -187,7 +203,8 @@ GO
 --count Employee sale every year
 CREATE VIEW HR.YearList
 AS
-SELECT Emp.EmployeeID As empid, Emp.FirstName, Emp.LastName, Year(OrderDate) AS orderyear, COUNT(*) AS num
+SELECT Emp.EmployeeID As empid, Emp.FirstName, Emp.LastName,
+	   Year(OrderDate) AS orderyear, COUNT(*) AS num
 FROM Sales.Orders AS Ord, HR.Employees AS Emp
 WHERE Ord.EmployeeID = Emp.EmployeeID
 GROUP BY Emp.EmployeeID, Emp.FirstName, Emp.LastName, Year(OrderDate)
@@ -225,7 +242,8 @@ IF OBJECT_ID('HR.YearList') IS NOT NULL
 GO
 
 --8. 請查詢出訂單編號為11070的明細資料，其中包含訂單代號、訂購日期(yyyy/mm/dd)、
---   需要日期(yyyy/mm/dd)、公司名稱(id-name)、管理員(名 姓)、商品(id-name)、原價、數量、小計
+--   需要日期(yyyy/mm/dd)、公司名稱(id-name)、管理員(名 姓)、商品(id-name)、
+--   原價、數量、小計
 
 SELECT Ord.OrderID, FORMAT(Ord.OrderDate, 'yyyy/MM/dd') AS orderdate,
        FORMAT(Ord.RequiredDate, 'yyyy/MM/dd') AS requireDate,
@@ -233,19 +251,20 @@ SELECT Ord.OrderID, FORMAT(Ord.OrderDate, 'yyyy/MM/dd') AS orderdate,
 	   Emp.FirstName + ' ' + Emp.LastName AS Name,
 	   convert(varchar(4),Pro.ProductID) + '-' + Pro.ProductName AS ProductName,
 	   Pro.UnitPrice, OD.Qty, (Pro.UnitPrice*OD.Qty) AS TotalPrice
-FROM (Sales.Orders AS Ord
-	 JOIN  Sales.OrderDetails AS OD
+FROM Sales.Orders AS Ord
+INNER JOIN  Sales.OrderDetails AS OD
 	  ON OD.OrderID = Ord.OrderID
-	 JOIN  Sales.Customers AS Cus
+INNER JOIN  Sales.Customers AS Cus
 	  ON Cus.CustomerID = Ord.CustomerID
-	 JOIN  HR.Employees AS Emp
-	  ON Emp.EmployeeID = Ord.EmployeeID)
-		  JOIN Production.Products AS Pro
-	     ON OD.ProductID = Pro.ProductID
+INNER JOIN  HR.Employees AS Emp
+	  ON Emp.EmployeeID = Ord.EmployeeID
+ INNER JOIN Production.Products AS Pro
+	  ON OD.ProductID = Pro.ProductID
 WHERE Ord.OrderID = 11070
 
 
---9. 於11070訂單新增產品代號為38的商品,數量2個,沒有折扣,並修改需要日期為2008/10/10
+--9. 於11070訂單新增產品代號為38的商品,數量2個,沒有折扣,
+--   並修改需要日期為2008/10/10 tran
 
 --DECLARE @Oid INT = 11070
 --DECLARE @Pid INT = 38
@@ -279,7 +298,7 @@ IF OBJECT_ID('Sales.InsertDate') IS NOT NULL
 	DROP PROC Sales.InsertDate;
 GO
 
---10. 請將題9新增的商品(商品代號=38)刪除
+--10. 請將題9新增的商品(商品代號=38)刪除 //confirm
 
 --DECLARE @Oid INT = 11070
 --DECLARE @Pid INT = 38
@@ -293,6 +312,7 @@ CREATE PROCEDURE Sales.deleteDate
 (@Oid INT,@Pid INT,@updateTime DATETIME)
 AS
 --delete date
+--SELECT *
 DELETE FROM Sales.OrderDetails
 WHERE OrderID = @Oid
 	and ProductID = @Pid

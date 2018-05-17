@@ -1,11 +1,10 @@
+skillData = JSON.parse(JSON.stringify(data));
+
 function wirteGridView() {
-		
-	var jsondate = JSON.stringify(data)
-	var skillDate = JSON.parse(jsondate);
 	
 	$("#grid").kendoGrid({
 		dataSource: {
-			data: skillDate,
+			data: skillData,
 			schema: {
 				model: {
 					fields: {
@@ -32,22 +31,18 @@ function wirteGridView() {
 		},
 		columns: [
 			{field: "ID", width: "65px"},
-			{field: "Name", width: "105px"},
-			{field: "Skill", width: "110px"},
-			{field: "UnitPrice", title: "Price", format: "{0:c0}", width: "90px"},
-			{field: "HR", title: "Hours", width: "100px"},
-			{field: "TotalPrice", title: "Total", format: "{0:c0}", width: "95px"},
-			{field: "PhoneNumber", width: "155px"},
-			{field: "Location", width: "130px"}
+			{field: "Name", title: "姓名", width: "105px"},
+			{field: "Skill", title: "技能", width: "110px"},
+			{field: "UnitPrice", title: "每小時", format: "{0:c0}", width: "105px"},
+			{field: "HR", title: "時數", width: "85px"},
+			{field: "TotalPrice", title: "總價", format: "{0:c0}", width: "95px"},
+			{field: "PhoneNumber", title: "電話號碼", width: "155px"},
+			{field: "Location", title: "地點", width: "130px"}
 		]
 	});
 }
 
-function refreshGrid(tmp) {
+function refreshGrid() {
 	
-	var jsondate = JSON.stringify(tmp)
-	var skillDate = JSON.parse(jsondate);
-	
-	$('#grid').data('kendoGrid').dataSource.add(skillDate);
-	$('#grid').data('kendoGrid').refresh();
+	$('#grid').data('kendoGrid').dataSource.read();
 }
