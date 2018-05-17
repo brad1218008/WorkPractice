@@ -1,5 +1,85 @@
-h1
+.header 
 {
-  font-size:100px;
-  text-align: center;
+	font-size: 50px;
+	text-align: center;
+	margin: 15px 0;
+}
+.addSkill
+{
+	padding: 20px 0;
+	font-size: 20px;
+}
+.search
+{
+	text-align: center;
+	padding: 10px;
+}
+#grid
+{
+	margin-top: 20px;
+	text-align: center;
+}
+#skillPicture
+{
+	padding: 10px 0 ;
+}
+#otherSkill
+{
+	display: none;
+	margin-top: 15px;
+}
+#location
+{
+	width: 92%;
+}
+.ms-choice
+{
+	line-height: 2.5;
+	border: 0;
+	width: 100%;
+}
+.ms-drop
+{
+	width:93%;
+}
+.addMySkill
+{
+	text-align: center;
+}
+#price
+{
+	padding: 10px 0;
+	text-align: center;
+}
+#unitPrice,#totalPrice
+{
+	font-weight: bold;
+	color: darkblue;
+	text-align: center;
+	padding: 6px 0;
+}
+#setUnitPrice
+{
+	font-weight: bold;
+	color: darkblue;
+	display: none;
+	text-align: center;
+	font-size: 18px;
+	margin-bottom: 17px;
+}
+#setHR
+{
+	text-align: center;
+	color: darkblue;
+	font-weight: bold;
+	font-size: 18px;
+}
+
+/*delete arrows in input[type=number]*/
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0; 
 }
