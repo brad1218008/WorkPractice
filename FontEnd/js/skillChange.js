@@ -20,14 +20,17 @@ function isOther(Other) {
 	}
 }
 
-//
+//change UnitPrice
 function chgUnitPrice(unitprice) {
 	$("#unitPrice").text(unitprice);
 	$("#totalPrice").text(Number($("#unitPrice").text()) * Number($("#setHR").val()));
 }
 
+//set Total Price
 function setTotalPrice() {
+	//if is other
 	if($("#skillSelect").val().split(",")[0] == "other") {
+		//input is invalid
 		if($("#setUnitPrice").val() == ""){
 			return;
 		}else {

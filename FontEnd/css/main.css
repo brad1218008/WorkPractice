@@ -11,8 +11,9 @@
 }
 .search
 {
-	text-align: center;
-	padding: 10px;
+	padding: 20px 0;
+	font-size: 20px;
+	display: none;
 }
 #grid
 {
@@ -21,12 +22,12 @@
 }
 #skillPicture
 {
-	padding: 10px 0 ;
+	padding: 20px 0 ;
 }
 #otherSkill
 {
 	display: none;
-	margin-top: 15px;
+	margin-top: 5px;
 }
 #location
 {
@@ -74,7 +75,19 @@
 	font-weight: bold;
 	font-size: 18px;
 }
-
+.btn-group
+{
+	width: 100%;
+}
+.btn-group.btn-flex 
+{
+  display: flex;
+	margin-top: 15px;
+}
+.btn-flex .btn 
+{
+  flex: 1
+}
 /*delete arrows in input[type=number]*/
 input[type=number]::-webkit-inner-spin-button, 
 input[type=number]::-webkit-outer-spin-button { 

@@ -9,11 +9,13 @@
 	<link rel="stylesheet" href="css/bootstrap.min.css">
 	<link rel="stylesheet" href="css/multiple-select.css">
 	<link rel="stylesheet" href="css/main.css">
-	<script type="text/javascript" src="json/date.json"></script>
+	<script type="text/javascript" src="json/data.json"></script>
 	<script type="text/javascript" src="js/jquery.min.js"></script>
 	<script type="text/javascript" src="js/multiple-select.js"></script>
 	<script type="text/javascript" src="js/bootstrap.min.js"></script>
 	<script src="https://kendo.cdn.telerik.com/2018.2.515/js/kendo.all.min.js"></script>
+	<script type="text/javascript" src="js/addSkillData.js"></script>
+	<script type="text/javascript" src="js/modeSet.js"></script>
 	<script type="text/javascript" src="js/skillChange.js"></script>
 	<script type="text/javascript" src="js/gridView.js"></script>
 	<script type="text/javascript" src="js/main.js"></script>
@@ -24,10 +26,14 @@
 		<h1 class="header">技能學習平台</h1>
 		<div class="row">
 			<div class="col-3">
+				<div class="btn-group btn-flex" role="group">
+					<button id="lrnMode" type="button" class="btn btn-primary" >我要學習</button>
+					<button id="qryMode" type="button" class="btn btn-secondary">我要查詢</button>
+				</div>
 				<form class="addSkill">
 					<div class="form-group">
 						<label for="name">Name</label>
-						<input type="text" class="form-control" required>
+						<input id="name" type="text" class="form-control" required >
 					</div>
 					<div class="row">
 						<div class="col-6">
@@ -53,7 +59,7 @@
 					<div class="row" id="price">
 						<div class="col-4">
 							<label>每小時</label><br>
-							<p id="unitPrice">500</p>
+							<p id="unitPrice">800</p>
 							<input type="number" class="form-control" id="setUnitPrice">
 						</div>
 						<div class="col-4">
@@ -62,17 +68,13 @@
 						</div>
 						<div class="col-4">
 							<label>總價</label><br>
-							<p id="totalPrice">500</p>
+							<p id="totalPrice">800</p>
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="phoneNumber">Phone Number</label>
-						<input type="text" class="form-control" required>
-					</div>
-					<div class="form-group">
-						<label for="location">location</label><br>
+						<label for="location">Location</label><br>
 						<select id="location" class="form-control" multiple="multiple" required>
-							<option value="台北">台北</option>
+							<option value="台北" selected>台北</option>
 							<option value="桃園">桃園</option>
 							<option value="新竹">新竹</option>
 							<option value="苗栗">苗栗</option>
@@ -89,13 +91,15 @@
 							<option value="台東">台東</option>
 						</select>
 					</div>
-					<input type="submit" value="送出" id="addMySkill" class="btn btn-primary btn-block">
+					<div class="form-group">
+						<label for="phoneNumber">Phone Number</label>
+						<input id="phoneNumber" type="text" class="form-control" required>
+					</div>
+					<input type="button" value="送出" id="addMySkill" class="btn btn-primary btn-block">
 				</form>
+				<from class="search">Comimg Soon</from>
 			</div>
 			<div class="col-9">
-				<div class="search">
-					Here is Search
-				</div>
 				<div id="grid">
 				</div>
 			</div>

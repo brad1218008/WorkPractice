@@ -39,4 +39,13 @@ $(function() {
 		}
 		setTotalPrice();
 	})
+	
+	//Learning Mode Click
+	$("#lrnMode").on("click",learningMode);
+	
+	//Query Mode Click
+	$("#qryMode").on("click",queryMode);
+
+	//Add new data
+	$("#addMySkill").on("click",addData);
 });
