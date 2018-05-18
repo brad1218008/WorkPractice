@@ -1,3 +1,7 @@
+// -----------------
+//|  Delete Data	| 
+// -----------------
+
 function deleteData(id){
 	var ans = confirm("確定要刪除 ID:" + id + " 這筆資料嗎？");
 	if(ans) {

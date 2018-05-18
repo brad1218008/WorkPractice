@@ -1,5 +1,8 @@
+// -----------------
+//|  Kendo Grid 	|  利用Kendo UI 的 Grid 來顯示資料
+// -----------------
+
 function wirteGridView() {
-	
 	$("#grid").kendoGrid({
 		dataSource: {
 			transport: {
@@ -51,6 +54,8 @@ function wirteGridView() {
 	});
 }
 
+//如果資料有更新，就呼叫此函式更新
 function refreshGrid() {
 	$('#grid').data('kendoGrid').dataSource.read();
+	$('#grid').data('kendoGrid').dataSource.page(1);
 }

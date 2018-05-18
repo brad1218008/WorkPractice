@@ -1,3 +1,8 @@
+// -----------------
+//|  Add Data	| 
+// -----------------
+
+//原本資料最後一個ID
 var originLastID = Number(data[data.length-1].ID);
 						  
 function addData() {
@@ -50,6 +55,7 @@ function addData() {
 	resetAll();
 }
 
+//輸入欄位全部回到起始值
 function resetAll() {
 	$("#name").val("");
 	$("#skillSelect").val("program,800");

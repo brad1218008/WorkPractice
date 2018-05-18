@@ -1,3 +1,4 @@
+//Init Function
 $(function() {
 	//GirdView
 	wirteGridView();
@@ -25,7 +26,8 @@ $(function() {
 			setTotalPrice();
 			return;
 		}
-		if($("#skillSelect").val().split(",")[0] == "other" && $("#setHR").val() == "")
+		if($("#skillSelect").val().split(",")[0] == "other" 
+		   	 && $("#setHR").val() == "")
 			return;
 		setTotalPrice();
 	});
@@ -59,6 +61,19 @@ $(function() {
 		}
 	});
 	
+	//Search Column Change
+	$("#columnSelect").change(function() {
+		var mode = $("#columnSelect").val()
+		if(mode == "ID" || mode == "UnitPrice" ||
+		   mode == "HR" || mode == "TotalPrice" ) {
+			numMode();
+		}else if(mode == "Name" || mode == "Skill" ||
+				 mode == "PhoneNumber" ) {
+			strMode();
+		}else if(mode == "Location") {
+			selectMode();
+		}
+	});
 	//Search Button Click
 	$("#searchData").on("click", function() {
 		var searchType = $("#columnSelect").val();

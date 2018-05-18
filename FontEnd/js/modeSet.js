@@ -1,5 +1,5 @@
 // -----------------
-//|  AddData MODE	|
+//|    User MODE	|  新增及使用功能上介面的改變
 // -----------------
 
 function learningMode(){
@@ -25,7 +25,7 @@ function queryMode(){
 }
 
 // -----------------
-//|  Funtion MODE	|
+//|  Funtion MODE	|  查詢、修改、刪除下方欄位的改變
 // -----------------
 
 function searchMode() {
@@ -44,4 +44,26 @@ function deleteMode() {
 	$("#searchMode").css("display","none");
 	$("#modifyMode").css("display","none");
 	$("#deleteMode").css("display","block");
+}
+
+// -----------------
+//|  Search MODE	|   查詢功能依照欄位不同下方可輸入欄位的改變
+// -----------------
+
+function numMode() {
+	$("#searchNumGroup").css("display","block");
+	$("#searchStrGroup").css("display","none");
+	$("#searchSelectGroup").css("display","none");
+}
+
+function strMode() {
+	$("#searchStrGroup").css("display","block");
+	$("#searchNumGroup").css("display","none");
+	$("#searchSelectGroup").css("display","none");
+}
+
+function selectMode() {
+	$("#searchStrGroup").css("display","none");
+	$("#searchNumGroup").css("display","none");
+	$("#searchSelectGroup").css("display","block");
 }

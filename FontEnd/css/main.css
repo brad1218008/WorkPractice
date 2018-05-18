@@ -88,15 +88,11 @@
 {
   	flex: 1;
 }
-#serachMode
+#serachMode,#searchNumGroup
 {
 	display: block;
 }
-#modifyMode
-{
-	display: none;
-}
-#deleteMode
+#modifyMode,#deleteMode,#searchStrGroup,#searchSelectGroup
 {
 	display: none;
 }
@@ -104,6 +100,7 @@
 {
 	margin-top: 20px;
 }
+
 /*delete arrows in input[type=number]*/
 input[type=number]::-webkit-inner-spin-button, 
 input[type=number]::-webkit-outer-spin-button { 
@@ -111,4 +108,13 @@ input[type=number]::-webkit-outer-spin-button {
     -moz-appearance: none;
     appearance: none;
     margin: 0; 
+}
+
+/*Kendo Grid border-radius*/
+.k-grid
+{
+    -moz-border-radius:10px;
+    -webkit-border-radius:10px;
+    border-radius:10px;
+    overflow:hidden;
 }

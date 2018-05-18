@@ -1,6 +1,14 @@
+// -----------------
+//|  Search Data	| 
+// -----------------
+
+//決定要丟入Grid中的資料室查詢後的資料
 isSearch = false;
+//查詢資料的暫存
 searchData = [];
 
+
+//依照使用者選擇搜尋欄位的不同去分類
 function searchBy(searchType) {
 	switch(searchType) {
 		case "ID":
@@ -22,6 +30,22 @@ function searchBy(searchType) {
 			var totalPrice = $("#searchNum").val();
 			var con = $("#conSearchNum").val();
 			searchByTotalPrice(totalPrice,con);	
+			break;
+		case "Name":
+			var name = $("#searchStr").val();
+			searchByName(name);
+			break;
+		case "Skill":
+			var skill = $("#searchStr").val();
+			searchBySkill(skill);
+			break;
+		case "PhoneNumber":
+			var phoneNumber = $("#searchStr").val();
+			searchByPhoneNumber(phoneNumber);
+			break;
+		case "Location":
+			var location = $("#searchSelect").val();
+			searchByLocation(location);
 			break;
 	}
 }
@@ -127,7 +151,7 @@ function searchByUnitPrice(unitPrice,condition) {
 		isSearch = true;
 		refreshGrid();
 		searchData = [];
-	}else {
+	}else if(condition == "greaterEq"){
 		for(var i=0; i<data.length; i++) {
 			if(Number(data[i].UnitPrice) >= Number(unitPrice)) {
 				idExist = true;
@@ -185,7 +209,7 @@ function searchByHR(hours,condition) {
 		isSearch = true;
 		refreshGrid();
 		searchData = [];
-	}else {
+	}else if(condition == "greaterEq") {
 		for(var i=0; i<data.length; i++) {
 			if(Number(data[i].HR) >= Number(hours)) {
 				idExist = true;
@@ -242,7 +266,7 @@ function searchByTotalPrice(totalPrice,condition) {
 		isSearch = true;
 		refreshGrid();
 		searchData = [];
-	}else {
+	}else if(condition == "greaterEq") {
 		for(var i=0; i<data.length; i++) {
 			if(Number(data[i].TotalPrice) >= Number(totalPrice)) {
 				idExist = true;
@@ -256,4 +280,72 @@ function searchByTotalPrice(totalPrice,condition) {
 	if(!idExist) {
 		alert("沒有您想要查詢資料");
 	}	
+}
+
+function searchByName(name) {
+	var idExist = false;
+	for(var i=0; i<data.length; i++) {
+		if(data[i].Name.includes(name)) {
+			idExist = true;
+			searchData.push(data[i]);
+		}
+	}
+	if(!idExist) {
+		alert("沒有您想要查詢資料");
+		return;
+	}	
+	isSearch = true;
+	refreshGrid();
+	searchData = [];
+}
+
+function searchBySkill(skill) {
+	var idExist = false;
+	for(var i=0; i<data.length; i++) {
+		if(data[i].Skill.includes(skill)) {
+			idExist = true;
+			searchData.push(data[i]);
+		}
+	}
+	if(!idExist) {
+		alert("沒有您想要查詢資料");
+		return;
+	}	
+	isSearch = true;
+	refreshGrid();
+	searchData = [];
+}
+
+function searchByPhoneNumber(phoneNumber) {
+	var idExist = false;
+	for(var i=0; i<data.length; i++) {
+		if(data[i].PhoneNumber.includes(phoneNumber)) {
+			idExist = true;
+			searchData.push(data[i]);
+		}
+	}
+	if(!idExist) {
+		alert("沒有您想要查詢資料");
+		return;
+	}	
+	isSearch = true;
+	refreshGrid();
+	searchData = [];
+}
+
+function searchByLocation(location) {
+	var idExist = false;
+	for(var i=0; i<data.length; i++) {
+		if(data[i].Location.includes(location)) {
+			idExist = true;
+			searchData.push(data[i]);
+		}
+	}
+	if(!idExist) {
+		alert("沒有您想要查詢資料");
+		return;
+	}	
+	isSearch = true;
+	refreshGrid();
+	searchData = [];
 }
