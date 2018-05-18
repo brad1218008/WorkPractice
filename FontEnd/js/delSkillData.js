@@ -6,7 +6,6 @@ function deleteData(id){
 			if(data[i].ID == id) {
 				idExist = true;
 				data.splice(i,1);
-				skillData.splice(0,1);
 				refreshGrid();
 				break;
 			}

@@ -16,7 +16,6 @@ $(function() {
 	
 	//JQuery Multiple
 	$("#location").multipleSelect();
-	
 	$(".ms-parent form-control").attr("style","width: 100%");
 	
 	//Set totalPrice - not Other
@@ -61,11 +60,14 @@ $(function() {
 	});
 	
 	//Search Button Click
-	
+	$("#searchData").on("click", function() {
+		var searchType = $("#columnSelect").val();
+		searchBy(searchType);
+	});
 	
 	//Delete Button Click
 	$("#deleteData").on("click", function() {
-		var id = $("#deleteID").val()
+		var id = $("#deleteID").val();
 		deleteData(id);
 	});
 });

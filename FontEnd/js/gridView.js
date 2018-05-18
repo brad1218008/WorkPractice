@@ -1,10 +1,19 @@
-skillData = JSON.parse(JSON.stringify(data));
-
 function wirteGridView() {
 	
 	$("#grid").kendoGrid({
 		dataSource: {
-			data: skillData,
+			transport: {
+			  read: function(options){
+				  var localData = ""
+				  if(isSearch) {
+					  localData = JSON.parse(JSON.stringify(searchData));
+				  }else{
+					  localData = JSON.parse(JSON.stringify(data));
+				  }
+				  options.success(localData);
+				  isSearch = false;
+			  },
+			},
 			schema: {
 				model: {
 					fields: {
@@ -43,6 +52,5 @@ function wirteGridView() {
 }
 
 function refreshGrid() {
-	
 	$('#grid').data('kendoGrid').dataSource.read();
 }

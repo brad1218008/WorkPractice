@@ -723,7 +723,7 @@
         placeholder: '',
         selectAll: true,
         selectAllDelimiter: ['[', ']'],
-        minimumCountSelected: 7,
+        minimumCountSelected: 5,
         ellipsis: false,
         multiple: false,
         multipleWidth: 80,

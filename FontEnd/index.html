@@ -17,6 +17,7 @@
 	<script type="text/javascript" src="js/gridView.js"></script>
 	<script type="text/javascript" src="js/addSkillData.js"></script>
 	<script type="text/javascript" src="js/delSkillData.js"></script>
+	<script type="text/javascript" src="js/srhSkillData.js"></script>
 	<script type="text/javascript" src="js/modeSet.js"></script>
 	<script type="text/javascript" src="js/skillChange.js"></script>
 	<script type="text/javascript" src="js/main.js"></script>
@@ -106,26 +107,55 @@
 							<option value="modify">修改</option>
 							<option value="delete">刪除</option>
 						</select>
-						<div class="form-group" id="searchMode">
-							<label for="column">欄位</label><br>
-							<select id="columnSelect" class="form-control" required>
-								<option value="ID">ID</option>
-								<option value="Name">姓名</option>
-								<option value="Skill">技能</option>
-								<option value="UnitPrice">每小時</option>
-								<option value="HR">時數</option>
-								<option value="TotalPrice">總價</option>
-								<option value="PhoneNumber">電話號碼</option>
-								<option value="Location">地點</option>
-							</select>
-							<input tpye="button" value="查詢" id="searchData" class="btn btn-primary btn-block">
+						<div id="searchMode">
+							<div class="form-group" >
+								<label for="column">欄位</label><br>
+								<select id="columnSelect" class="form-control" required>
+									<option value="ID">ID</option>
+									<option value="Name">姓名</option>
+									<option value="Skill">技能</option>
+									<option value="UnitPrice">每小時</option>
+									<option value="HR">時數</option>
+									<option value="TotalPrice">總價</option>
+									<option value="PhoneNumber">電話號碼</option>
+									<option value="Location">地點</option>
+								</select>	
+							</div>
+							<div class="form-group" id="searchNumGroup">
+								<div class="row">
+									<div class="col-6">
+										<select id="conSearchNum" class="form-control" required>
+											<option value="less">小於</option>
+											<option value="lessEq">小於等於</option>
+											<option value="eq" selected>等於</option>
+											<option value="graterEq">大於等於</option>
+											<option value="greater">大於</option>
+										</select>
+									</div>
+									<div class="col-6">
+										<input type="number" class="form-control" id="searchNum" value="1" min="1" required>
+									</div>
+								</div>
+							</div>
+							<div class="form-group" >
+							</div>
+							<div class="form-group" >
+								<input tpye="button" value="查詢" id="searchData" class="btn btn-primary btn-block">
+							</div>
 						</div>
-						<div class="form-group" id="modifyMode">
+						<div id="modifyMode">
+							<div class="form-group" >
+								
+							</div>
 						</div>
-						<div class="form-group" id="deleteMode">
-							<label for="ID">ID</label>
-							<input type="number" class="form-control" id="deleteID" value="1" min="1" required>
-							<input type="button" value="確定" id="deleteData" class="btn btn-primary btn-block">
+						<div  id="deleteMode">
+							<div class="form-group">
+								<label for="ID">ID</label>
+								<input type="number" class="form-control" id="deleteID" value="1" min="1" required>
+							</div>
+							<div class="form-group">
+								<input type="button" value="確定" id="deleteData" class="btn btn-primary btn-block">
+							</div>
 						</div>
 					</div>
 				</from>

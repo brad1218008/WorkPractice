@@ -1,8 +1,10 @@
+var originLastID = Number(data[data.length-1].ID);
+						  
 function addData() {
 	var tmp = {}
 	
 	//get ID
-	var NextID = String(Number(data[data.length-1].ID) +1) 
+	var NextID = String(++originLastID);
 	tmp.ID = NextID
 	
 	//get Name
@@ -44,8 +46,6 @@ function addData() {
 	tmp.Location = location
 	
 	data.push(tmp);
-	var tmpjsondate = JSON.stringify(tmp);
-	skillData.push(JSON.parse(tmpjsondate));
 	refreshGrid();
 	resetAll();
 }
@@ -60,6 +60,8 @@ function resetAll() {
 	$("#setHR").val("1");
 	$("#totalPrice").text("800");
 	$("#phoneNumber").val("");
-	$("#location").val("台北");
+	//clear mutiple select
+	$("#location").multipleSelect('uncheckAll')
+	$("#location").multipleSelect("setSelects", ["台北"])
 	
 }
