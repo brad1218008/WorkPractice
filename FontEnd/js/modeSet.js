@@ -4,7 +4,7 @@
 
 function learningMode(){
 	if($("#lrnMode.btn-primary").length > 0) {
-		return
+		return;
 	}else{
 		$("#qryMode.btn-primary").removeClass("btn-primary").addClass("btn-secondary");
 		$("#lrnMode").removeClass("btn-secondary").addClass("btn-primary");
@@ -15,12 +15,13 @@ function learningMode(){
 
 function queryMode(){
 	if($("#qryMode.btn-primary").length > 0) {
-		return
+		return;
 	}else{
 		$("#lrnMode.btn-primary").removeClass("btn-primary").addClass("btn-secondary");
 		$("#qryMode").removeClass("btn-secondary").addClass("btn-primary");
 		$(".addSkill").css("display","none");
 		$(".search").css("display","block");
+		resetAll();
 	}
 }
 
@@ -66,4 +67,18 @@ function selectMode() {
 	$("#searchStrGroup").css("display","none");
 	$("#searchNumGroup").css("display","none");
 	$("#searchSelectGroup").css("display","block");
+}
+
+// -----------------
+//|  Range  MODE	|   看使用者是要輸入特定值或是範圍
+// -----------------
+
+function equalMode() {
+	$("#equalMode").css("display","block");
+	$("#rangeMode").css("display","none");
+}
+
+function rangeMode() {
+	$("#equalMode").css("display","none");
+	$("#rangeMode").css("display","block");
 }

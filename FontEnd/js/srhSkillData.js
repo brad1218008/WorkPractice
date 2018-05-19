@@ -12,49 +12,93 @@ searchData = [];
 function searchBy(searchType) {
 	switch(searchType) {
 		case "ID":
-			var id = $("#searchNum").val();
+			var min = "";
+			var max = "";
 			var con = $("#conSearchNum").val();
-			searchByID(id,con);	
+			if(con == "range"){
+				min = $("#minNum").val();
+				max = $("#maxNum").val();
+				if(min == "" && max == "") {
+					return;
+				}else if(min == "" && max != "") {
+					con = "lessEq";
+				}else if(min != "" && max == "") {
+					con = "greaterEq";
+				}
+			}else if(con == "equal") {
+				min = $("#searchNum").val();
+				max = min;
+			}
+			searchByID(min,max,con);	
 			break;
 		case "UnitPrice":
-			var unitPrice = $("#searchNum").val();
+			var min = "";
+			var max = "";
 			var con = $("#conSearchNum").val();
-			searchByUnitPrice(unitPrice,con);	
+			if(con == "range"){
+				min = $("#minNum").val();
+				max = $("#maxNum").val();
+				if(min == "" && max == "") {
+					return;
+				}else if(min == "" && max != "") {
+					con = "lessEq";
+				}else if(min != "" && max == "") {
+					con = "greaterEq";
+				}
+			}else if(con == "equal") {
+				min = $("#searchNum").val();
+				max = min;
+			}
+			searchByUnitPrice(min,max,con);	
 			break;
 		case "HR":
-			var hours = $("#searchNum").val();
+			var min = "";
+			var max = "";
 			var con = $("#conSearchNum").val();
-			searchByHR(hours,con);	
+			if(con == "range"){
+				min = $("#minNum").val();
+				max = $("#maxNum").val();
+				if(min == "" && max == "") {
+					return;
+				}else if(min == "" && max != "") {
+					con = "lessEq";
+				}else if(min != "" && max == "") {
+					con = "greaterEq";
+				}
+			}else if(con == "equal") {
+				min = $("#searchNum").val();
+				max = min;
+			}
+			searchByHR(min,max,con);	
 			break;
 		case "TotalPrice":
-			var totalPrice = $("#searchNum").val();
+			var min = "";
+			var max = "";
 			var con = $("#conSearchNum").val();
+			if(con == "range"){
+				min = $("#minNum").val();
+				max = $("#maxNum").val();
+				if(min == "" && max == "") {
+					return;
+				}else if(min == "" && max != "") {
+					con = "lessEq";
+				}else if(min != "" && max == "") {
+					con = "greaterEq";
+				}
+			}else if(con == "equal") {
+				min = $("#searchNum").val();
+				max = min;
+			}
 			searchByTotalPrice(totalPrice,con);	
-			break;
-		case "Name":
-			var name = $("#searchStr").val();
-			searchByName(name);
-			break;
-		case "Skill":
-			var skill = $("#searchStr").val();
-			searchBySkill(skill);
-			break;
-		case "PhoneNumber":
-			var phoneNumber = $("#searchStr").val();
-			searchByPhoneNumber(phoneNumber);
-			break;
-		case "Location":
-			var location = $("#searchSelect").val();
-			searchByLocation(location);
 			break;
 	}
 }
 
-function searchByID(id,condition) {
+function searchByID(min,max,condition) {
 	var idExist = false;
-	if(condition == "eq") {
+	if(condition == "equal") {
 		for(var i=0; i<data.length; i++) {
-			if(Number(data[i].ID) == Number(id)) {
+			if(Number(data[i].ID) == Number(min)) {
 				idExist = true;
 				searchData.push(data[i]);
 				isSearch = true;
@@ -63,87 +107,9 @@ function searchByID(id,condition) {
 				break;
 			}
 		}
-	}else if(condition == "less") {
-		for(var i=0; i<data.length; i++) {
-			if(Number(data[i].ID) < Number(id)) {
-				idExist = true;
-				searchData.push(data[i]);
-			}
-		}
-		isSearch = true;
-		refreshGrid();
-		searchData = [];
 	}else if(condition == "lessEq") {
 		for(var i=0; i<data.length; i++) {
-			if(Number(data[i].ID) <= Number(id)) {
-				idExist = true;
-				searchData.push(data[i]);
-			}
-		}
-		isSearch = true;
-		refreshGrid();
-		searchData = [];
-	}else if(condition == "greater") {
-		for(var i=0; i<data.length; i++) {
-			if(Number(data[i].ID) > Number(id)) {
-				idExist = true;
-				searchData.push(data[i]);
-			}
-		}
-		isSearch = true;
-		refreshGrid();
-		searchData = [];
-	}else {
-		for(var i=0; i<data.length; i++) {
-			if(Number(data[i].ID) >= Number(id)) {
-				idExist = true;
-				searchData.push(data[i]);
-			}
-		}
-		isSearch = true;
-		refreshGrid();
-		searchData = [];
-	}
-	if(!idExist) {
-		alert("沒有您想要查詢資料");
-	}	
-}
-
-function searchByUnitPrice(unitPrice,condition) {
-	var idExist = false;
-	if(condition == "eq") {
-		for(var i=0; i<data.length; i++) {
-			if(Number(data[i].UnitPrice) == Number(unitPrice)) {
-				idExist = true;
-				searchData.push(data[i]);
-			}
-		}
-		isSearch = true;
-		refreshGrid();
-		searchData = [];
-	}else if(condition == "less") {
-		for(var i=0; i<data.length; i++) {
-			if(Number(data[i].UnitPrice) < Number(unitPrice)) {
-				idExist = true;
-				searchData.push(data[i]);
-			}
-		}
-		isSearch = true;
-		refreshGrid();
-		searchData = [];
-	}else if(condition == "lessEq") {
-		for(var i=0; i<data.length; i++) {
-			if(Number(data[i].UnitPrice) <= Number(unitPrice)) {
-				idExist = true;
-				searchData.push(data[i]);
-			}
-		}
-		isSearch = true;
-		refreshGrid();
-		searchData = [];
-	}else if(condition == "greater") {
-		for(var i=0; i<data.length; i++) {
-			if(Number(data[i].UnitPrice) > Number(unitPrice)) {
+			if(Number(data[i].ID) <= Number(max)) {
 				idExist = true;
 				searchData.push(data[i]);
 			}
@@ -153,7 +119,18 @@ function searchByUnitPrice(unitPrice,condition) {
 		searchData = [];
 	}else if(condition == "greaterEq"){
 		for(var i=0; i<data.length; i++) {
-			if(Number(data[i].UnitPrice) >= Number(unitPrice)) {
+			if(Number(data[i].ID) >= Number(min)) {
+				idExist = true;
+				searchData.push(data[i]);
+			}
+		}
+		isSearch = true;
+		refreshGrid();
+		searchData = [];
+	}else if(condition == "range"){
+		for(var i=0; i<data.length; i++) {
+			if(Number(data[i].ID) >= Number(min) &&
+			  	Number(data[i].ID) <= Number(max)) {
 				idExist = true;
 				searchData.push(data[i]);
 			}
@@ -167,21 +144,11 @@ function searchByUnitPrice(unitPrice,condition) {
 	}	
 }
 
-function searchByHR(hours,condition) {
+function searchByUnitPrice(min,max,condition) {
 	var idExist = false;
-	if(condition == "eq") {
+	if(condition == "equal") {
 		for(var i=0; i<data.length; i++) {
-			if(Number(data[i].HR) == Number(hours)) {
-				idExist = true;
-				searchData.push(data[i]);
-			}
-		}
-		isSearch = true;
-		refreshGrid();
-		searchData = [];
-	}else if(condition == "less") {
-		for(var i=0; i<data.length; i++) {
-			if(Number(data[i].HR) < Number(hours)) {
+			if(Number(data[i].UnitPrice) == Number(min)) {
 				idExist = true;
 				searchData.push(data[i]);
 			}
@@ -191,7 +158,7 @@ function searchByHR(hours,condition) {
 		searchData = [];
 	}else if(condition == "lessEq") {
 		for(var i=0; i<data.length; i++) {
-			if(Number(data[i].HR) <= Number(hours)) {
+			if(Number(data[i].UnitPrice) <= Number(max)) {
 				idExist = true;
 				searchData.push(data[i]);
 			}
@@ -199,9 +166,9 @@ function searchByHR(hours,condition) {
 		isSearch = true;
 		refreshGrid();
 		searchData = [];
-	}else if(condition == "greater") {
+	}else if(condition == "greaterEq"){
 		for(var i=0; i<data.length; i++) {
-			if(Number(data[i].HR) > Number(hours)) {
+			if(Number(data[i].UnitPrice) >= Number(min)) {
 				idExist = true;
 				searchData.push(data[i]);
 			}
@@ -209,9 +176,10 @@ function searchByHR(hours,condition) {
 		isSearch = true;
 		refreshGrid();
 		searchData = [];
-	}else if(condition == "greaterEq") {
+	}else if(condition == "range"){
 		for(var i=0; i<data.length; i++) {
-			if(Number(data[i].HR) >= Number(hours)) {
+			if(Number(data[i].UnitPrice) >= Number(min) &&
+			  	Number(data[i].UnitPrice) <= Number(max)) {
 				idExist = true;
 				searchData.push(data[i]);
 			}
@@ -224,21 +192,12 @@ function searchByHR(hours,condition) {
 		alert("沒有您想要查詢資料");
 	}	
 }
-function searchByTotalPrice(totalPrice,condition) {
+
+function searchByHR(min,max,condition) {
 	var idExist = false;
-	if(condition == "eq") {
+	if(condition == "equal") {
 		for(var i=0; i<data.length; i++) {
-			if(Number(data[i].TotalPrice) == Number(totalPrice)) {
-				idExist = true;
-				searchData.push(data[i]);
-			}
-		}
-		isSearch = true;
-		refreshGrid();
-		searchData = [];
-	}else if(condition == "less") {
-		for(var i=0; i<data.length; i++) {
-			if(Number(data[i].TotalPrice) < Number(totalPrice)) {
+			if(Number(data[i].HR) == Number(min)) {
 				idExist = true;
 				searchData.push(data[i]);
 			}
@@ -248,17 +207,7 @@ function searchByTotalPrice(totalPrice,condition) {
 		searchData = [];
 	}else if(condition == "lessEq") {
 		for(var i=0; i<data.length; i++) {
-			if(Number(data[i].TotalPrice) <= Number(totalPrice)) {
-				idExist = true;
-				searchData.push(data[i]);
-			}
-		}
-		isSearch = true;
-		refreshGrid();
-		searchData = [];
-	}else if(condition == "greater") {
-		for(var i=0; i<data.length; i++) {
-			if(Number(data[i].TotalPrice) > Number(totalPrice)) {
+			if(Number(data[i].HR) <= Number(max)) {
 				idExist = true;
 				searchData.push(data[i]);
 			}
@@ -268,7 +217,66 @@ function searchByTotalPrice(totalPrice,condition) {
 		searchData = [];
 	}else if(condition == "greaterEq") {
 		for(var i=0; i<data.length; i++) {
-			if(Number(data[i].TotalPrice) >= Number(totalPrice)) {
+			if(Number(data[i].HR) >= Number(min)) {
+				idExist = true;
+				searchData.push(data[i]);
+			}
+		}
+		isSearch = true;
+		refreshGrid();
+		searchData = [];
+	}else if(condition == "range"){
+		for(var i=0; i<data.length; i++) {
+			if(Number(data[i].HR) >= Number(min) &&
+			  	Number(data[i].HR) <= Number(max)) {
+				idExist = true;
+				searchData.push(data[i]);
+			}
+		}
+		isSearch = true;
+		refreshGrid();
+		searchData = [];
+	}
+	if(!idExist) {
+		alert("沒有您想要查詢資料");
+	}	
+}
+function searchByTotalPrice(min,max,condition) {
+	var idExist = false;
+	if(condition == "equal") {
+		for(var i=0; i<data.length; i++) {
+			if(Number(data[i].TotalPrice) == Number(min)) {
+				idExist = true;
+				searchData.push(data[i]);
+			}
+		}
+		isSearch = true;
+		refreshGrid();
+		searchData = [];
+	}else if(condition == "lessEq") {
+		for(var i=0; i<data.length; i++) {
+			if(Number(data[i].TotalPrice) <= Number(max)) {
+				idExist = true;
+				searchData.push(data[i]);
+			}
+		}
+		isSearch = true;
+		refreshGrid();
+		searchData = [];
+	}else if(condition == "greaterEq") {
+		for(var i=0; i<data.length; i++) {
+			if(Number(data[i].TotalPrice) >= Number(min)) {
+				idExist = true;
+				searchData.push(data[i]);
+			}
+		}
+		isSearch = true;
+		refreshGrid();
+		searchData = [];
+	}else if(condition == "range"){
+		for(var i=0; i<data.length; i++) {
+			if(Number(data[i].TotalPrice) >= Number(min) &&
+			  	Number(data[i].TotalPrice) <= Number(max)) {
 				idExist = true;
 				searchData.push(data[i]);
 			}
@@ -283,16 +291,11 @@ function searchByTotalPrice(totalPrice,condition) {
 }
 
 function searchByName(name) {
-	var idExist = false;
 	for(var i=0; i<data.length; i++) {
-		if(data[i].Name.includes(name)) {
+		if(data[i].Name.toLowerCase().includes(name.toLowerCase())) {
 			idExist = true;
 			searchData.push(data[i]);
 		}
-	}
-	if(!idExist) {
-		alert("沒有您想要查詢資料");
-		return;
 	}	
 	isSearch = true;
 	refreshGrid();
@@ -300,50 +303,35 @@ function searchByName(name) {
 }
 
 function searchBySkill(skill) {
-	var idExist = false;
 	for(var i=0; i<data.length; i++) {
-		if(data[i].Skill.includes(skill)) {
+		if(data[i].Skill.toLowerCase().includes(skill.toLowerCase())) {
 			idExist = true;
 			searchData.push(data[i]);
 		}
 	}
-	if(!idExist) {
-		alert("沒有您想要查詢資料");
-		return;
-	}	
 	isSearch = true;
 	refreshGrid();
 	searchData = [];
 }
 
 function searchByPhoneNumber(phoneNumber) {
-	var idExist = false;
 	for(var i=0; i<data.length; i++) {
 		if(data[i].PhoneNumber.includes(phoneNumber)) {
 			idExist = true;
 			searchData.push(data[i]);
 		}
 	}
-	if(!idExist) {
-		alert("沒有您想要查詢資料");
-		return;
-	}	
 	isSearch = true;
 	refreshGrid();
 	searchData = [];
 }
 
 function searchByLocation(location) {
-	var idExist = false;
 	for(var i=0; i<data.length; i++) {
-		if(data[i].Location.includes(location)) {
+		if(data[i].Location.toLowerCase().includes(location.toLowerCase())) {
 			idExist = true;
 			searchData.push(data[i]);
 		}
-	}
-	if(!idExist) {
-		alert("沒有您想要查詢資料");
-		return;
 	}	
 	isSearch = true;
 	refreshGrid();

@@ -26,7 +26,6 @@
 }
 #otherSkill
 {
-	display: none;
 	margin-top: 5px;
 }
 #location
@@ -49,7 +48,7 @@
 }
 #price
 {
-	padding: 10px 0;
+	padding-bottom: 10px;
 	text-align: center;
 }
 #unitPrice,#totalPrice
@@ -63,7 +62,6 @@
 {
 	font-weight: bold;
 	color: darkblue;
-	display: none;
 	text-align: center;
 	font-size: 18px;
 	margin-bottom: 17px;
@@ -99,6 +97,24 @@
 #searchData,#deleteData
 {
 	margin-top: 20px;
+}
+#minNum,#maxNum
+{
+	width: 48%;
+	display: inline;
+}
+example
+{
+	font-size: 15px;
+	margin-left: 20px;
+	color: darkgray;
+}
+/* Placeholder Color*/
+input::placeholder {
+  color: red;
+}
+::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+  color: red;
 }
 
 /*delete arrows in input[type=number]*/

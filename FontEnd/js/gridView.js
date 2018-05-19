@@ -45,10 +45,10 @@ function wirteGridView() {
 			{field: "ID", width: "65px"},
 			{field: "Name", title: "姓名", width: "105px"},
 			{field: "Skill", title: "技能", width: "110px"},
-			{field: "UnitPrice", title: "每小時", format: "{0:c0}", width: "105px"},
+			{field: "UnitPrice", title: "每小時", format: "{0:c0}", width: "100px"},
 			{field: "HR", title: "時數", width: "85px"},
-			{field: "TotalPrice", title: "總價", format: "{0:c0}", width: "95px"},
-			{field: "PhoneNumber", title: "電話號碼", width: "155px"},
+			{field: "TotalPrice", title: "總價", format: "{0:c0}", width: "105px"},
+			{field: "PhoneNumber", title: "電話號碼", width: "145px"},
 			{field: "Location", title: "地點", width: "130px"}
 		]
 	});
@@ -56,6 +56,12 @@ function wirteGridView() {
 
 //如果資料有更新，就呼叫此函式更新
 function refreshGrid() {
+	$('#grid').data('kendoGrid').dataSource.read();
+	isSearch = true;
+	$('#grid').data('kendoGrid').dataSource.page(1);
+}
+
+function showAllGrid() {
 	$('#grid').data('kendoGrid').dataSource.read();
 	$('#grid').data('kendoGrid').dataSource.page(1);
 }

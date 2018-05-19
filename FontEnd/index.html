@@ -94,7 +94,7 @@
 						</select>
 					</div>
 					<div class="form-group">
-						<label for="phoneNumber">電話號碼</label>
+						<label for="phoneNumber">電話號碼<example>EX:0912345678</example></label>
 						<input id="phoneNumber" type="text" class="form-control" required>
 					</div>
 					<input type="button" value="送出" id="addMySkill" class="btn btn-primary btn-block">
@@ -102,9 +102,9 @@
 				<from class="search">
 					<div class="form-group">
 						<label for="feature">功能</label><br>
-						<select id="featureSelect" class="form-control" required>
+					<select id="featureSelect" class="form-control" required>
 							<option value="search">查詢</option>
-							<option value="modify">修改</option>
+							<option value="modify">修改 (Comimg Soon)</option>
 							<option value="delete">刪除</option>
 						</select>
 						<div id="searchMode">
@@ -123,17 +123,20 @@
 							</div>
 							<div class="form-group" id="searchNumGroup">
 								<div class="row">
-									<div class="col-6">
+									<div class="col-4">
 										<select id="conSearchNum" class="form-control" required>
-											<option value="less">小於</option>
-											<option value="lessEq">小於等於</option>
-											<option value="eq" selected>等於</option>
-											<option value="graterEq">大於等於</option>
-											<option value="greater">大於</option>
+											<option value="equal" >等於</option>
+											<option value="range" selected>範圍</option>
 										</select>
 									</div>
-									<div class="col-6">
-										<input type="number" class="form-control" id="searchNum" value="1" min="1" required>
+									<div class="col-8" id="equalMode">
+										<div >
+											<input type="number" class="form-control" id="searchNum" value="1" min="1" required>
+										</div>
+									</div>
+									<div class="col-8" id="rangeMode">
+										<input type="number" class="form-control" id="minNum" min="0" placeholder="最小值">
+										<input type="number" class="form-control" id="maxNum" min="0" placeholder="最大值">
 									</div>
 								</div>
 							</div>
@@ -141,8 +144,9 @@
 								<input type="text" class="form-control" id="searchStr" required>
 							</div>
 							<div class="form-group" id="searchSelectGroup">
-								<select id="searchSelect" class="form-control"  required>
-									<option value="台北" selected>台北</option>
+								<select id="searchSelect" class="form-control">
+									<option disabled selected></option>
+									<option value="台北">台北</option>
 									<option value="桃園">桃園</option>
 									<option value="新竹">新竹</option>
 									<option value="苗栗">苗栗</option>
@@ -165,7 +169,7 @@
 						</div>
 						<div id="modifyMode">
 							<div class="form-group" >
-								Coming Soon!
+								<h3>Coming Soon!</h3>
 							</div>
 						</div>
 						<div  id="deleteMode">

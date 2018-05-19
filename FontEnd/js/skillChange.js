@@ -14,7 +14,9 @@ function isOther(Other) {
 		$("#totalPrice").text("")
 	}
 	else{
+//		$("#otherSkill").removeAttr("style");
 		$("#otherSkill").css("display","none");
+//		$("#setUnitPrice").removeAttr("style");
 		$("#setUnitPrice").css("display","none");
 		$("#unitPrice").css("display","block");
 	}
