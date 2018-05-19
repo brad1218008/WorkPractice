@@ -2,9 +2,9 @@
 $(function () {
 	//GirdView
 	wirteGridView();
-	$("#otherSkill").css("display","none")
-	$("#setUnitPrice").css("display","none")
-	$("#equalMode").css("display","none")
+	$("#otherSkill").css("display","none");
+	$("#setUnitPrice").css("display","none");
+	$("#equalMode").css("display","none");
 
 	//skillSelectChange and UnitPrice
 	$("#skillSelect").change(function () {
@@ -20,6 +20,7 @@ $(function () {
 
 	//JQuery Multiple
 	$("#location").multipleSelect();
+//	$("#modLocation").multipleSelect();
 	$(".ms-parent form-control").attr("style", "width: 100%");
 
 	//Set totalPrice - not Other
@@ -43,6 +44,13 @@ $(function () {
 		}
 		setTotalPrice();
 	});
+	
+	$("#modHR").change(function() {
+		if (Number($("#modHR").val()) == 0) {
+			$("#modHR").val("1");
+		}
+		$("#modPrice").val(Number($("#modHR").val()) * Number($("#modUnitPrice").val()));
+	});
 
 	//Learning Mode Button Click
 	$("#lrnMode").on("click", learningMode);
@@ -51,7 +59,7 @@ $(function () {
 	$("#qryMode").on("click", queryMode);
 
 	//Add new data Button Click
-	$("#addMySkill").on("click", addData);
+	$("#addMySkill").on("click", addDataValidation);
 
 	//Function mode changed
 	$("#featureSelect").change(function () {
@@ -100,12 +108,19 @@ $(function () {
 		var searchType = $("#columnSelect").val();
 		searchBy(searchType);
 	});
-
+	
+	//Modify Button Click
+	$("#modifyData").on("click", function () {
+		var id = $("#modifyID").val();
+		showModefyModal(id);
+	});
+	
 	//Delete Button Click
 	$("#deleteData").on("click", function () {
 		var id = $("#deleteID").val();
 		deleteData(id);
 	});
+
 	
 // ------------------------------
 //|   Real Time String Search	|  邊輸入變搜尋

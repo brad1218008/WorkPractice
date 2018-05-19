@@ -2,6 +2,8 @@
 //|  Kendo Grid 	|  利用Kendo UI 的 Grid 來顯示資料
 // -----------------
 
+const gridPageSize = 9
+
 function wirteGridView() {
 	$("#grid").kendoGrid({
 		dataSource: {
@@ -31,7 +33,7 @@ function wirteGridView() {
 					}
 				}
 			},
-			pageSize: 9
+			pageSize: gridPageSize
 		},
 		height: 602,
 		scrollable: true,
@@ -45,9 +47,11 @@ function wirteGridView() {
 			{field: "ID", width: "65px"},
 			{field: "Name", title: "姓名", width: "105px"},
 			{field: "Skill", title: "技能", width: "110px"},
-			{field: "UnitPrice", title: "每小時", format: "{0:c0}", width: "100px"},
-			{field: "HR", title: "時數", width: "85px"},
-			{field: "TotalPrice", title: "總價", format: "{0:c0}", width: "105px"},
+			{field: "UnitPrice", title: "時薪", format: "{0:c0}", width: "100px",
+			 attributes: {class:"rightAlign"}},
+			{field: "HR", title: "時數", width: "85px",attributes: {class:"rightAlign"}},
+			{field: "TotalPrice", title: "總價", format: "{0:c0}", width: "105px",
+			 attributes: {class:"rightAlign"}},
 			{field: "PhoneNumber", title: "電話號碼", width: "145px"},
 			{field: "Location", title: "地點", width: "130px"}
 		]
@@ -61,7 +65,13 @@ function refreshGrid() {
 	$('#grid').data('kendoGrid').dataSource.page(1);
 }
 
-function showAllGrid() {
+function showAllGridFirstPage() {
 	$('#grid').data('kendoGrid').dataSource.read();
 	$('#grid').data('kendoGrid').dataSource.page(1);
+}
+function showAllGridLastPage() {
+	var dataLen = data.length;
+	var lastpage = Math.ceil(dataLen / gridPageSize);
+	$('#grid').data('kendoGrid').dataSource.read();
+	$('#grid').data('kendoGrid').dataSource.page(lastpage);
 }

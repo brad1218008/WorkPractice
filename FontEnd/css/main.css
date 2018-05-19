@@ -6,7 +6,7 @@
 }
 .addSkill
 {
-	padding: 20px 0;
+	padding-top: 20px;
 	font-size: 20px;
 }
 .search
@@ -24,7 +24,7 @@
 {
 	padding: 20px 0 ;
 }
-#otherSkill
+#otherSkill,#modOtherSkill
 {
 	margin-top: 5px;
 }
@@ -109,6 +109,27 @@ example
 	margin-left: 20px;
 	color: darkgray;
 }
+.rightAlign
+{
+	text-align: right;
+}
+.centerAlign
+{
+	text-align: center;
+}
+.k-icon
+{
+	height: 2.5em;
+}
+.mobile
+{
+	display: none;
+}
+.form-modify
+{
+	padding: 5px 0;
+}
+
 /* Placeholder Color*/
 input::placeholder {
   color: red;

@@ -3,13 +3,16 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<title>WorkShop 2 - FontEnd</title>
+	<!-- css -->
 	<link rel="stylesheet" href="https://kendo.cdn.telerik.com/2018.2.515/styles/kendo.common-material.min.css" />
 	<link rel="stylesheet" href="https://kendo.cdn.telerik.com/2018.2.515/styles/kendo.material.min.css" />
 	<link rel="stylesheet" href="https://kendo.cdn.telerik.com/2018.2.515/styles/kendo.material.mobile.min.css" />
 	<link rel="stylesheet" href="css/bootstrap.min.css">
 	<link rel="stylesheet" href="css/multiple-select.css">
 	<link rel="stylesheet" href="css/main.css">
+	<!-- json -->
 	<script type="text/javascript" src="json/data.json"></script>
+	<!-- js -->
 	<script type="text/javascript" src="js/jquery.min.js"></script>
 	<script type="text/javascript" src="js/multiple-select.js"></script>
 	<script type="text/javascript" src="js/bootstrap.min.js"></script>
@@ -17,7 +20,10 @@
 	<script type="text/javascript" src="js/gridView.js"></script>
 	<script type="text/javascript" src="js/addSkillData.js"></script>
 	<script type="text/javascript" src="js/delSkillData.js"></script>
+	<script type="text/javascript" src="js/modSkillData.js"></script>
 	<script type="text/javascript" src="js/srhSkillData.js"></script>
+	<script type="text/javascript" src="js/dataValidation.js"></script>
+	<script type="text/javascript" src="js/modifyModal.js"></script>
 	<script type="text/javascript" src="js/modeSet.js"></script>
 	<script type="text/javascript" src="js/skillChange.js"></script>
 	<script type="text/javascript" src="js/main.js"></script>
@@ -29,13 +35,13 @@
 		<div class="row">
 			<div class="col-3">
 				<div class="btn-group btn-flex" role="group">
-					<button id="lrnMode" type="button" class="btn btn-primary" >新增學習</button>
+					<button id="lrnMode" type="button" class="btn btn-primary">新增學習</button>
 					<button id="qryMode" type="button" class="btn btn-secondary">更多功能</button>
 				</div>
 				<form class="addSkill">
 					<div class="form-group">
 						<label for="name">姓名</label>
-						<input id="name" type="text" class="form-control" required >
+						<input id="name" type="text" class="form-control" required>
 					</div>
 					<div class="row">
 						<div class="col-6">
@@ -60,7 +66,7 @@
 					</div>
 					<div class="row" id="price">
 						<div class="col-4">
-							<label>每小時</label><br>
+							<label>時薪</label><br>
 							<p id="unitPrice">800</p>
 							<input type="number" class="form-control" id="setUnitPrice">
 						</div>
@@ -102,24 +108,24 @@
 				<from class="search">
 					<div class="form-group">
 						<label for="feature">功能</label><br>
-					<select id="featureSelect" class="form-control" required>
+						<select id="featureSelect" class="form-control" required>
 							<option value="search">查詢</option>
 							<option value="modify">修改 (Comimg Soon)</option>
 							<option value="delete">刪除</option>
 						</select>
 						<div id="searchMode">
-							<div class="form-group" >
+							<div class="form-group">
 								<label for="column">欄位</label><br>
 								<select id="columnSelect" class="form-control" required>
 									<option value="ID">ID</option>
 									<option value="Name">姓名</option>
 									<option value="Skill">技能</option>
-									<option value="UnitPrice">每小時</option>
+									<option value="UnitPrice">時薪</option>
 									<option value="HR">時數</option>
 									<option value="TotalPrice">總價</option>
 									<option value="PhoneNumber">電話號碼</option>
 									<option value="Location">地點</option>
-								</select>	
+								</select>
 							</div>
 							<div class="form-group" id="searchNumGroup">
 								<div class="row">
@@ -130,7 +136,7 @@
 										</select>
 									</div>
 									<div class="col-8" id="equalMode">
-										<div >
+										<div>
 											<input type="number" class="form-control" id="searchNum" value="1" min="1" required>
 										</div>
 									</div>
@@ -163,16 +169,22 @@
 									<option value="台東">台東</option>
 								</select>
 							</div>
-							<div class="form-group" >
+							<div class="form-group">
 								<input tpye="button" value="查詢" id="searchData" class="btn btn-primary btn-block">
 							</div>
 						</div>
 						<div id="modifyMode">
-							<div class="form-group" >
-								<h3>Coming Soon!</h3>
+							<div class="form-group">
+								<div class="form-group">
+									<label for="ID">ID</label>
+									<input type="number" class="form-control" id="modifyID" value="1" min="1" required>
+								</div>
+								<div class="form-group">
+									<input type="button" value="確定" id="modifyData" class="btn btn-primary btn-block">
+								</div>
 							</div>
 						</div>
-						<div  id="deleteMode">
+						<div id="deleteMode">
 							<div class="form-group">
 								<label for="ID">ID</label>
 								<input type="number" class="form-control" id="deleteID" value="1" min="1" required>
@@ -186,6 +198,91 @@
 			</div>
 			<div class="col-9">
 				<div id="grid">
+				</div>
+			</div>
+		</div>
+		<!-- The Modal -->
+		<div class="modal fade" id="modifyModal">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<form>
+						<!-- Modal Header -->
+						<div class="modal-header">
+							<h4 class="modal-title"></h4>
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+						</div>
+						<!-- Modal body -->
+						<div class="modal-body">
+							<div class="form-inline">
+								<div class="form-group form-modify">
+									<label for="name">姓名</label>
+									<input type="text" id="modName" class="form-control mx-sm-5">
+								</div>
+								<div class="form-group form-modify">
+									<label for="skill">技能</label>
+									<input type="text" class="form-control mx-sm-5" id="modSkillSelect" readonly>
+<!--
+									<select id="modSkillSelect" class="form-control mx-sm-3" required>
+										<option value="program,800">程式語言</option>
+										<option value="draw,1000">繪畫</option>
+										<option value="fix,800">水電維修</option>
+										<option value="english,700">英語</option>
+										<option value="stock,500">股票分析</option>
+										<option value="sport,900">運動</option>
+										<option value="math,1200">數學</option>
+										<option value="other">其他</option>
+									</select>
+									<input type="text" class="form-control mx-sm-3" id="modOtherSkill">
+-->
+								</div>
+								<div class="form-group form-modify">
+									<label>時薪</label>
+									<input type="number" class="form-control mx-sm-5" id="modUnitPrice" readonly>
+								</div>
+								<div class="form-group form-modify">
+									<label>時數</label>
+									<input type="number" class="form-control mx-sm-5" id="modHR" value="1" min="1" >
+								</div>
+								<div class="form-group form-modify">
+									<label>總價</label>
+									<input type="number" class="form-control mx-sm-5" id="modPrice" readonly>
+								</div>
+								<div class="form-group form-modify">
+									<label for="location">地點</label>
+									<input id="modLocation" type="text" class="form-control mx-sm-5" readonly>
+									
+<!--
+									<select id="modLocation" class="form-control mx-sm-3" multiple="multiple" required>
+										<option value="台北" selected>台北</option>
+										<option value="桃園">桃園</option>
+										<option value="新竹">新竹</option>
+										<option value="苗栗">苗栗</option>
+										<option value="台中">台中</option>
+										<option value="彰化">彰化</option>
+										<option value="南投">南投</option>
+										<option value="雲林">雲林</option>
+										<option value="嘉義">嘉義</option>
+										<option value="台南">台南</option>
+										<option value="高雄">高雄</option>
+										<option value="屏東">屏東</option>
+										<option value="宜蘭">宜蘭</option>
+										<option value="花蓮">花蓮</option>
+										<option value="台東">台東</option>
+									</select>
+-->
+								</div>
+								<div class="form-group form-modify">
+									<label for="phoneNumber">電話號碼</label>
+									<input id="modPhoneNumber" type="text" class="form-control mx-sm-3" required>
+								</div>
+							</div>
+						</div>
+						<!-- Modal footer -->
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+							<button id="btnModify" type="button" class="btn btn-primary">Submit</button>
+						</div>
+					</form>
 				</div>
 			</div>
 		</div>
